@@ -1,0 +1,19 @@
+html {
+    overflow-y: scroll
+}
+
+body {
+    margin: 0 auto;
+    color: #333;
+    background-color: #c9e2f9;
+    font: 12px/1.5 SimSun, Arial, Tahoma, Helvetica, sans-serif;
+    text-align: center;
+    _position: absolute
+}
+
+p, dl, dt, dd, table, td, th, input, img, form, div, span, ul, ol, li, h1, h2, h3, h4, h5, h6, select, input {
+    margin: 0;
+    padding: 0;
+    font-weight: normal
+}
+
