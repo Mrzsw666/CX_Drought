@@ -6,5 +6,5 @@ import tensorflow
 
 
 def main(request):
-
+    
     return render(request, 'test.html',)
