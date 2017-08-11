@@ -4,5 +4,7 @@ import tensorflow
 
 
 
-def redi(request):
+
+def main(request):
+
     return render(request, 'test.html',)

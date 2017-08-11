@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class RFBeijing(models.Model):    #北京
+class RF(models.Model):    #北京
     index = models.AutoField(primary_key=True)
     cityName = models.CharField(max_length=20, null=True)
     stationIndex = models.IntegerField(null=True)
@@ -14,65 +14,69 @@ class RFBeijing(models.Model):    #北京
     Comparing = models.FloatField(null=True)
 
 
-class RFTianjin(models.Model):    #天津
+class Beijing(RF):
     pass
 
 
-class RFHebei(models.Model):      #河北
+class RFTianjin(RF):    #天津
     pass
 
 
-class RFShanxi(models.Model):     #山西
+class RFHebei(RF):      #河北
     pass
 
 
-class RFNeimenggu(models.Model):  #内蒙古
+class RFShanxi(RF):     #山西
     pass
 
 
-class RFLiaoning(models.Model):   #辽宁
+class RFNeimenggu(RF):  #内蒙古
     pass
 
 
-class RFJilin(models.Model):      #吉林
+class RFLiaoning(RF):   #辽宁
     pass
 
 
-class RFHeilongjiang(models.Model): #黑龙江
+class RFJilin(RF):      #吉林
     pass
 
 
-class RFJiangsu(models.Model):     #江苏
+class RFHeilongjiang(RF): #黑龙江
     pass
 
 
-class RFAnhui(models.Model):      #安徽
+class RFJiangsu(RF):     #江苏
     pass
 
 
-class RFShandong(models.Model):   #山东
+class RFAnhui(RF):      #安徽
     pass
 
 
-class RFHenan(models.Model):      #河南
+class RFShandong(RF):   #山东
     pass
 
 
-class RFShaanxi(models.Model):    #陕西
+class RFHenan(RF):      #河南
     pass
 
 
-class RFGansu(models.Model):      #甘肃
+class RFShaanxi(RF):    #陕西
     pass
 
 
-class RFQinghai(models.Model):    #青海
+class RFGansu(RF):      #甘肃
     pass
 
 
-class RFNingxia(models.Model):    #宁夏
+class RFQinghai(RF):    #青海
     pass
 
 
-class RFXinjiang(models.Model):   #新疆
+class RFNingxia(RF):    #宁夏
+    pass
+
+
+class RFXinjiang(RF):   #新疆
     pass
