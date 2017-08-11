@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1413d258-a701-4bc5-acc1-0aaac6b2c84d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dromatters/drought/views.py" afterPath="$PROJECT_DIR$/Dromatters/drought/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,9 +31,9 @@
         <entry file="file://$PROJECT_DIR$/Dromatters/drought/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
-              <caret line="1" column="2" lean-forward="false" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
+              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding>
-                <element signature="e#29#246#0" expanded="true" />
+                <element signature="e#27#244#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -539,9 +540,9 @@
     <entry file="file://$PROJECT_DIR$/Dromatters/drought/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
-          <caret line="1" column="2" lean-forward="false" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
-            <element signature="e#29#246#0" expanded="true" />
+            <element signature="e#27#244#0" expanded="true" />
           </folding>
         </state>
       </provider>
