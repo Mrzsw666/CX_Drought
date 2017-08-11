@@ -14,7 +14,7 @@ class RF(models.Model):    #北京
     Comparing = models.FloatField(null=True)
 
 
-class Beijing(RF):
+class RFBeijing(RF):    #北京
     pass
 
 
@@ -80,3 +80,4 @@ class RFNingxia(RF):    #宁夏
 
 class RFXinjiang(RF):   #新疆
     pass
+
