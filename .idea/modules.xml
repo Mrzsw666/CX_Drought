@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CX_Drought.iml" filepath="$PROJECT_DIR$/.idea/CX_Drought.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../cnsoft_PM2.5/.idea/cnsoft_PM2.5.iml" filepath="$PROJECT_DIR$/../cnsoft_PM2.5/.idea/cnsoft_PM2.5.iml" />
     </modules>
   </component>
 </project>
