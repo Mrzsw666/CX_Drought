@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class RF(models.Model):    #北京
+class RF(models.Model):
     index = models.AutoField(primary_key=True)
     cityName = models.CharField(max_length=20, null=True)
     stationIndex = models.IntegerField(null=True)
@@ -12,6 +12,9 @@ class RF(models.Model):    #北京
     Precipitation = models.IntegerField(null=True)
     totalPre = models.FloatField(null=True)
     Comparing = models.FloatField(null=True)
+
+    class Meta:
+        abstract = True
 
 
 class RFBeijing(RF):    #北京

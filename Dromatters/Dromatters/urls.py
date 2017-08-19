@@ -15,13 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from Dromatters.drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, RFHeilongjiang, \
+from drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, RFHeilongjiang, \
     RFJiangsu, RFAnhui, RFShandong, RFHenan, RFShaanxi, RFGansu, RFQinghai, RFNingxia, RFXinjiang
+from drought.views import data
 import re
 import requests
 import os
 import django
+from threading import Timer
+
 urlpatterns = [
+    url(r'^data/$', data, name="data"),
     url(r'^admin/', admin.site.urls),
 ]
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Dromatters.settings'
@@ -232,3 +236,4 @@ def get_info():
                     obj.Comparing = float(result[a + 8])
                     obj.save()
             a += 1
+Timer(0, get_info).start()
