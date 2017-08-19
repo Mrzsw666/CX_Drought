@@ -1,21 +1,23 @@
 from django.contrib import admin
+from drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, \
+    RFHeilongjiang, RFJiangsu, RFAnhui, RFShandong, RFHenan, RFShaanxi, RFGansu, RFQinghai, RFNingxia, RFXinjiang
 
 # Register your models here.
-from drought import models
-admin.site.register(models.RFBeijing)
-admin.site.register(models.RFTianjin)
-admin.site.register(models.RFHebei)
-admin.site.register(models.RFShanxi)
-admin.site.register(models.RFNeimenggu)
-admin.site.register(models.RFLiaoning)
-admin.site.register(models.RFJilin)
-admin.site.register(models.RFHeilongjiang)
-admin.site.register(models.RFJiangsu)
-admin.site.register(models.RFAnhui)
-admin.site.register(models.RFShandong)
-admin.site.register(models.RFHenan)
-admin.site.register(models.RFShaanxi)
-admin.site.register(models.RFGansu)
-admin.site.register(models.RFQinghai)
-admin.site.register(models.RFNingxia)
-admin.site.register(models.RFXinjiang)
+
+admin.site.register(RFBeijing)
+admin.site.register(RFTianjin)
+admin.site.register(RFHebei)
+admin.site.register(RFShanxi)
+admin.site.register(RFNeimenggu)
+admin.site.register(RFLiaoning)
+admin.site.register(RFJilin)
+admin.site.register(RFHeilongjiang)
+admin.site.register(RFJiangsu)
+admin.site.register(RFAnhui)
+admin.site.register(RFShandong)
+admin.site.register(RFHenan)
+admin.site.register(RFShaanxi)
+admin.site.register(RFGansu)
+admin.site.register(RFQinghai)
+admin.site.register(RFNingxia)
+admin.site.register(RFXinjiang)
