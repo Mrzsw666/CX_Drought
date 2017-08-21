@@ -18,6 +18,7 @@ from django.contrib import admin
 from drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, RFHeilongjiang, \
     RFJiangsu, RFAnhui, RFShandong, RFHenan, RFShaanxi, RFGansu, RFQinghai, RFNingxia, RFXinjiang
 from drought.views import data
+from drought.views import CITYS_RFDB
 import re
 import requests
 import os
@@ -36,7 +37,7 @@ pages = ['1', '2', '3', '4', '5', '6', '7']
 
 init_url = "http://www.data.ac.cn/zrzy/ntBA02.asp"
 
-
+'''
 def get_info():
     for cur_page in pages:
         payload = {'Page': cur_page}
@@ -235,5 +236,30 @@ def get_info():
                     obj.totalPre = float(result[a + 6])
                     obj.Comparing = float(result[a + 8])
                     obj.save()
-            a += 1
+            a += 1'''
+
+def get_info():
+    for cur_page in pages:
+        payload = {'Page': cur_page}
+        r = requests.get(init_url, params=payload)
+        r.encoding = 'GBK'
+        p1 = r"(?<=<TD>).+?(?=</TD>)"
+        pattern = re.compile(p1)
+        result = re.findall(pattern, r.text)
+        a = 0
+        while a != 1340:
+            for k in CITYS_RFDB:
+                CITYS_RFDB[k].objects.create(stationIndex=0)
+                obj = CITYS_RFDB[k].objects.get(stationIndex=0)
+                obj.cityName = result[a + 1]
+                obj.stationIndex = int(result[a + 2])
+                obj.Year = int(result[a + 3])
+                obj.Area = float(result[a + 4])
+                obj.Precipitation = int(result[a + 5])
+                obj.totalPre = float(result[a + 6])
+                obj.Comparing = float(result[a + 8])
+                obj.save()
+                a+=10
+
+
 Timer(0, get_info).start()
