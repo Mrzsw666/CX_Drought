@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, RFHeilongjiang, \
+from drought.models import RFBeijing, RFTianjin, RFHebei, RFShanxi, RFNeimenggu, RFLiaoning, RFJilin, RFHeilongjiang,\
     RFJiangsu, RFAnhui, RFShandong, RFHenan, RFShaanxi, RFGansu, RFQinghai, RFNingxia, RFXinjiang
 from drought.views import data
-from drought.views import CITYS_RFDB
+from drought.views import CITYS_RFDB,CITYS_CNS
 import re
 import requests
 import os
@@ -29,12 +29,12 @@ urlpatterns = [
     url(r'^data/$', data, name="data"),
     url(r'^admin/', admin.site.urls),
 ]
+#os.environ.update({"DJANGO_SETTINGS_MODULE": "Dromatters.settings"})
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Dromatters.settings'
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Dromatters.settings")
 django.setup()
 
-
 pages = ['1', '2', '3', '4', '5', '6', '7']
-
 init_url = "http://www.data.ac.cn/zrzy/ntBA02.asp"
 
 '''
@@ -239,6 +239,7 @@ def get_info():
             a += 1'''
 
 def get_info():
+    a=0
     for cur_page in pages:
         payload = {'Page': cur_page}
         r = requests.get(init_url, params=payload)
@@ -246,21 +247,24 @@ def get_info():
         p1 = r"(?<=<TD>).+?(?=</TD>)"
         pattern = re.compile(p1)
         result = re.findall(pattern, r.text)
-    a = 0
-    print(result)
-    while a != 1340:
-        for k in CITYS_RFDB:
-            CITYS_RFDB[k].objects.create(stationIndex=0)
-            obj = CITYS_RFDB[k].objects.get(stationIndex=0)
-            obj.cityName = result[a + 1]
-            obj.stationIndex = int(result[a + 2])
-            obj.Year = int(result[a + 3])
-            obj.Area = float(result[a + 4])
-            obj.Precipitation = int(result[a + 5])
-            obj.totalPre = float(result[a + 6])
-            obj.Comparing = float(result[a + 8])
-            obj.save()
+        print(result)
+        while a!=1340:
+            for key in CITYS_CNS:
+                if CITYS_CNS[key]==result[a%200+1]:
+                    CITYS_RFDB[key].objects.create(stationIndex=0)
+                    obj = CITYS_RFDB[key].objects.get(stationIndex=0)
+                    obj.cityName = result[a%200 + 1]
+                    obj.stationIndex = int(result[a%200 + 2])
+                    obj.Year = int(result[a%200 + 3])
+                    obj.Area = float(result[a%200 + 4])
+                    obj.Precipitation = int(result[a%200 + 5])
+                    obj.totalPre = float(result[a%200 + 6])
+                    obj.Comparing = float(result[a%200 + 8])
+                    obj.save()
+                    break
             a+=10
+            if a==200 or a==400 or a==600 or a==800 or a==1000 or a==1200:
+                break
 
 
 Timer(0, get_info).start()
