@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+  <head>
+	<meta charset="utf-8">
+	<title>旱情监测数据平台</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+	
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link  href="../../static/css/style.css" type="text/css" rel="stylesheet">
+  </head>
 
-</body>
+  <body>
+  	<div class="bg-div">
+  	<frameset cols="200,*">
+	<div class="container forecast-container" >
+	<nav class="navbar navbar-default " role="navigation" >
+		<div class="container-fluid ">
+			<!-- 用于响应式的设计 -->
+		 	<div class="navbar-header">
+		 		<a class="navbar-brand forecast-title" href="#">旱情监测数据平台</a>&nbsp;&nbsp;
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+		 	</div>
+			<div id="navbar" class="navbar-collapse collapse ">
+				<ul class="nav  nav-pills" style="margin-top:8px;">
+				 	<li><a href="data.html" target="iframe_a">主页</a></li>
+				  
+				 	<li><a href="region.html" target="iframe_a">分地区展示</a></li>
+					<li><a href="knowledge.html" target="iframe_a">科普小知识</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	  	<iframe  class="forecast-frame" src="data.html" name="iframe_a" frameborder="0">
+	  	</iframe>
+	 	
+	</div> 
+	</frameset>
+	</div>
+  </body>
 </html>

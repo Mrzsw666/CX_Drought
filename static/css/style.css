@@ -1,19 +1,19 @@
 body{
-	
+
 }
 a{
-	color:#FFFF99;
+	color:indianred;
 }
 .bg-div{
-/*    background: url('images/2.jpg') center no-repeat;
-    -moz-background-size:100% 100%; 
-    background-size:100% 100%;*/
-/*    background-color: #66CCCC;*/
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+	/*    background: url('images/2.jpg') center no-repeat;
+        -moz-background-size:100% 100%;
+        background-size:100% 100%;*/
+	/*    background-color: #66CCCC;*/
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 .forecast-frame{
 	/*filter:alpha(opacity=60);
@@ -29,7 +29,7 @@ a{
 	position: relative;
 }
 .forecast-nav{
-	
+
 }
 .forecast-title{
 	position: relative;

@@ -22,6 +22,7 @@ class AllData(generics.ListAPIView):
         return queryset.order_by('Year')
 
 
+
 class RegionData(generics.ListAPIView):
     serializer_class = RFSerializers
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -32,4 +33,3 @@ class RegionData(generics.ListAPIView):
         if city is not None:
             queryset = queryset.filter(cityName=city)
         return queryset.order_by('Year')
-
