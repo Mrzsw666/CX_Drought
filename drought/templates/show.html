@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
-        <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
     <title>数据显示</title>
 
@@ -35,36 +36,21 @@
             <th>
                 totalPre
             </th>
+            <th>
+                Comparing
+            </th>
+            <th>
+                level
+            </th>
         </tr>
         </thead>
-        <tbody id="drought">
-        <tr id="content" class="example">
-            <td id="index">
-
-            </td>
-            <td id="cityName">
-
-            </td>
-            <td id="stationIndex">
-
-            </td>
-            <td id="year">
-
-            </td>
-            <td id="Area">
-
-            </td>
-            <td id="Preciptation">
-
-            </td>
-            <td id="totalPre">
-
-            </td>
-        </tr>
+        <tbody id="da">
         </tbody>
     </table>
 </div>
-<script src="../jquery-3.2.1.min.js"></script>
-<script src="region.js"></script>
+
+<script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static '/js/region.js' %}"></script>
+
 </body>
 </html>

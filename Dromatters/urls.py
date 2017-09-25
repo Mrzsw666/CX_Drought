@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from drought.models import RF
+from django.conf import settings
 from drought import views
 import re
 import requests
@@ -23,6 +24,7 @@ import os
 import django
 from threading import Timer
 from django.views.generic import TemplateView, RedirectView
+from django.conf.urls.static import static
 from rest_framework.urlpatterns import format_suffix_patterns
 
 apipatterns = [
@@ -34,10 +36,12 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url=r'data/')),
     url(r'^data/$', TemplateView.as_view(template_name="data.html")),
     url(r'^region/$', TemplateView.as_view(template_name="region.html")),
+    url(r'^show/$', TemplateView.as_view(template_name="show.html")),
     url(r'^admin/', admin.site.urls),
 ]
 
 urlpatterns += format_suffix_patterns(apipatterns)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # os.environ.update({"DJANGO_SETTINGS_MODULE": "Dromatters.settings"})
 os.environ['DJANGO_SETTINGS_MODULE'] = 'Dromatters.settings'
