@@ -22,6 +22,7 @@ import re
 import requests
 import os
 import django
+import tensorflow as tf
 from threading import Timer
 from django.views.generic import TemplateView, RedirectView
 from django.conf.urls.static import static
@@ -102,21 +103,21 @@ def fix():
         obj = RF.objects.get(cityName=x, Year=1996)
         area = obj.Area
         rain = obj.Precipitation
-        com = 1+(obj.Comparing/100)
-        ave = rain/com
+        com = 1 + (obj.Comparing / 100)
+        ave = rain / com
         obj.save()
         obj = RF.objects.get(cityName=x, Year=1997)
         obj.Area = area
         obj.save()
         obj = RF.objects.get(cityName=x, Year=1998)
         obj.Area = area
-        pre = round((obj.totalPre/area)*10, 1)
+        pre = round((obj.totalPre / area) * 10, 1)
         obj.Precipitation = pre
-        obj.Comparing = round((pre-ave)*100/ave, 1)
+        obj.Comparing = round((pre - ave) * 100 / ave, 1)
         obj.save()
         obj = RF.objects.get(cityName=x, Year=1999)
         obj.Area = area
-        obj.Comparing = round((obj.Precipitation-ave)*100/ave, 1)
+        obj.Comparing = round((obj.Precipitation - ave) * 100 / ave, 1)
         obj.save()
     makelevel()
 
@@ -128,9 +129,9 @@ def makelevel():
         if x.level:
             continue
         if com > -15:
-           x.level = "无旱"
+            x.level = "无旱"
         elif -30 < com <= -15:
-           x.level = "轻旱"
+            x.level = "轻旱"
         elif -40 < com <= -30:
             x.level = "中旱"
         elif -45 < com <= -40:
@@ -140,4 +141,75 @@ def makelevel():
         x.save()
     print("finished!")
 
+
 Timer(0, get_info).start()
+
+
+# 神经网络参数
+n_input = 6  # 输入层节点数
+n_hidden = 5  # 隐藏层节点数
+n_output = 1  # 输出层节点数
+
+
+# 神经网络预测模型
+def multilayer_perceptron(input_tensor, weights, biases):
+    # 隐藏层使用RELU激活函数
+    layer_multiplication = tf.matmul(input_tensor, weights['h1'])
+    layer_addition = tf.add(layer_multiplication, biases['b1'])
+    layer_activation = tf.nn.relu(layer_addition)
+
+    # 输出层使用线性激活函数
+    out_layer_multiplication = tf.matmul(layer_activation, weights['out'])
+    out_layer_addition = out_layer_multiplication + biases['out']
+
+    return out_layer_addition
+
+
+# 权重
+w = {
+    'h1': tf.Variable(tf.random_normal([n_input, n_hidden])),
+    'out': tf.Variable(tf.random_normal([n_hidden, n_output]))
+}
+
+# 阈值
+b = {
+    'b1': tf.Variable(tf.random_normal([n_hidden])),
+    'out': tf.Variable(tf.random_normal([n_output]))
+}
+
+# 使用占位符作为输入的目标，在运行整个算法时填入数据
+i_t = tf.placeholder(tf.float32, [None, n_input], name="input")
+o_t = tf.placeholder(tf.float32, [None, n_output], name="output")
+
+# 建立预测模型
+prediction = multilayer_perceptron(i_t, w, b)
+
+# 定义误差
+loss = tf.reduce_mean(tf.reduce_sum(tf.square(o_t - prediction)))
+
+# 选择梯度下降法最小化输出误差
+learning_rate = 0.1
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
+
+# 初始化变量
+init = tf.global_variables_initializer()
+
+# 得到并且预处理训练所需的输入与输出数据
+pass
+# 经过若干操作后
+input_data = None  # 训练所需的输入数据
+output_data = None  # 训练所需的输出数据
+
+# 输入数据开始训练模型
+with tf.Session() as sess:
+    sess.run(init)
+    for i in range(10000):  # 假设有10000组数据，则训练10000次，训练次数由数据组数定
+        sess.run([loss, optimizer], feed_dict={i_t: input_data, o_t: output_data})
+
+# 保存训练好的模型的权重(w)和阈值(b)，下一次使用算法时无需再训练
+pass
+
+# 使用模型
+test_data = None
+result = multilayer_perceptron(test_data, w, b)
+print(result)
