@@ -6,4 +6,4 @@ from drought.models import RF
 class RFSerializers(serializers.ModelSerializer):
     class Meta:
         model = RF
-        fields = ('index', 'cityName', 'stationIndex', 'Year', 'Area', 'Precipitation', 'totalPre', 'Comparing', 'level')
+        fields = ('index', 'cityName', 'year', 'month', 'rainfall', 'level')

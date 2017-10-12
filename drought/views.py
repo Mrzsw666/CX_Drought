@@ -19,7 +19,13 @@ class AllData(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = RF.objects.all()
-        return queryset.order_by('Year')
+        dq = queryset.filter(cityName="bjave")
+        dq.delete()
+        dq = queryset.filter(cityName="shave")
+        dq.delete()
+        dq = queryset.filter(cityName="gzave")
+        dq.delete()
+        return queryset.order_by('year', 'month')
 
 
 class RegionData(generics.ListAPIView):
@@ -31,5 +37,5 @@ class RegionData(generics.ListAPIView):
         city = self.request.query_params.get('cityName', None)
         if city is not None:
             queryset = queryset.filter(cityName=city)
-        return queryset.order_by('Year')
+        return queryset.order_by('year', 'month')
 
