@@ -18,6 +18,12 @@ from django.contrib import admin
 from drought.models import RF
 from django.conf import settings
 from drought import views
+
+import urllib
+import chardet
+import re
+import requests
+import csv
 import os
 import sys
 from threading import Timer
@@ -44,6 +50,22 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 CITYS_CNS = {u'北京': "bjave", u'上海': "shave", u'广州': "gzave"}
 
+def get_pic():
+    page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")
+    html = page.read()
+    encode_type = chardet.detect(html)
+    html = html.decode(encode_type['encoding'])
+    print(html)
+    reg = r's1p/(.*?)\" />'
+    imgre = re.compile(reg)
+    imglist = re.findall(imgre, html)
+    for link in imglist:
+        html_url = 'http://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/' + str(link)
+        print(html_url)
+        curPath = os.getcwd()
+        fatherPath = os.path.dirname(curPath)
+        filename = os.path.basename(html_url)
+        urllib.request.urlretrieve(html_url, fatherPath + "/front_end/css/images/" + filename)
 
 def get_info():
     data = xlrd.open_workbook("./static/datasheet.xlsx")
