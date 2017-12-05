@@ -20,6 +20,7 @@ from django.conf import settings
 from drought import views
 
 import urllib
+import urllib.request
 import chardet
 import re
 import requests
@@ -50,6 +51,7 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 CITYS_CNS = {u'北京': "bjave", u'上海': "shave", u'广州': "gzave"}
 
+
 def get_pic():
     page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")
     html = page.read()
@@ -66,6 +68,7 @@ def get_pic():
         fatherPath = os.path.dirname(curPath)
         filename = os.path.basename(html_url)
         urllib.request.urlretrieve(html_url, fatherPath + "/front_end/css/images/" + filename)
+
 
 def get_info():
     data = xlrd.open_workbook("./static/datasheet.xlsx")
@@ -117,5 +120,6 @@ def go():
     o = sys.argv
     if o[1] == "runserver":
         Timer(0, get_info).start()
+        Timer(0, get_pic).start()
 
 Timer(0, go).start()
