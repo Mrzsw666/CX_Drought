@@ -1,63 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>地区</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>FREE RESPONSIVE HORIZONTAL ADMIN</title>
+    <!-- BOOTSTRAP CORE STYLE  -->
+    <link href="{% static '/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FONT AWESOME STYLE  -->
+    <link href="{% static '/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- CUSTOM STYLE  -->
+    <link href="{% static '/css/style.css' %}" rel="stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
 </head>
 <body>
-<ul type="disc">
-    <li>A
-        <ul type="disc">
-            <li><a href="/show?cityName=安徽" target="iframe_a">安徽</a></li>
-        </ul>
-    </li>
-    <li>B
-        <ul type="disc">
-            <li><a href="/show?cityName=北京" target="iframe_a">北京</a></li>.
-        </ul>
-    </li>
-    <li>H
-        <ul type="disc">
-            <li><a href="/show?cityName=黑龙江" target="iframe_a">黑龙江</a></li>
-            <li><a href="/show?cityName=河南" target="iframe_a">河南</a></li>
-        </ul>
-    </li>
-    <li>J
-        <ul type="disc">
-            <li><a href="/show?cityName=江苏" target="iframe_a">江苏</a></li>
-            <li><a href="/show?cityName=吉林" target="iframe_a">吉林</a></li>
-        </ul>
-    </li>
-    <li>L
-        <ul type="disc">
-            <li><a href="/show?cityName=辽宁" target="iframe_a">辽宁</a></li>
-        </ul>
-    </li>
-    <li>N
-        <ul type="disc">
-            <li><a href="/show?cityName=内蒙古" target="iframe_a">内蒙古</a></li>
-            <li><a href="/show?city=宁夏" target="iframe_a">宁夏</a></li>
-        </ul>
-    </li>
-    <li>S
-        <ul type="disc">
-            <li><a href="/show?cityName=陕西" target="iframe_a">陕西</a></li>
-            <li><a href="/show?cityName=山东" target="iframe_a">山东</a></li>
-            <li><a href="/show?cityName=山西" target="iframe_a">山西</a></li>
-        </ul>
-    </li>
-    <li>T
-        <ul type="disc">
-            <li><a href="/show?cityNmae=天津" target="iframe_a">天津</a></li>
-        </ul>
-    </li>
-    <li>X
-        <ul type="disc">
-            <li><a href="/show?cityName=新疆" target="iframe_a">新疆</a></li>
-        </ul>
-    </li>
-</ul>
 
+    <div class="navbar navbar-inverse set-radius-zero" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="base.html">
 
+                    <img src="{% static '/css/images/logo.png' %}" />
+                </a>
+
+            </div>
+
+          
+        </div>
+    </div>
+    <!-- LOGO HEADER END-->
+    <!-- LOGO HEADER END-->
+    <section class="menu-section">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-right">
+                            <li><a href="base.html" >旱情预测</a></li>
+                           
+                            <li><a href="table.html">数据总览</a></li>
+                            <li>
+                                <a href="#" class="dropdown-toggle menu-top-active" id="ddlmenuItem" data-toggle="dropdown" >各地区情况 <i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=北京">北京</a></li>
+                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=上海">上海</a></li>
+                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=广州">广州</a></li>
+                                </ul>
+                            </li>
+                             <li><a href="knowledge.html">旱情小知识</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+     <!-- MENU SECTION END-->
+   
+    <section class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                 
+            </div>
+        </div>
+    </section>
+    <div align="center">
+        <!-- 显示后台数据的表格 -->
+        <table id="mainTable" class="display hover" border="1">
+            <thead>
+            <tr>
+                <th>
+                    城市名
+                </th>
+                <th>
+                    降水年份
+                </th>
+                <th>
+                    降水月份
+                </th>
+                <th>
+                    降水量
+                </th>
+                <th>
+                    干旱等级
+                </th>
+            </tr>
+            </thead>
+            <tbody id="da">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/js/region.js' %}"></script>
+      <!-- FOOTER SECTION END-->
+    <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+    <!-- CORE JQUERY  -->
+    <script src="{% static '/js/jquery-1.10.2.js' %}"></script>
+    <!-- BOOTSTRAP SCRIPTS  -->
+    <script src="{% static '/js/bootstrap.js' %}"></script>
+      <!-- CUSTOM SCRIPTS  -->
+    <script src="{% static '/js/custom.js' %}"></script>
 </body>
 </html>

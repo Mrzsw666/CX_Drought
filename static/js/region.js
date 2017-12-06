@@ -23,9 +23,8 @@ function ParametersFunc() {
         var data = [];
         data = test.responseJSON.results;
         for (var i = 0; i < data.length; i++) {
-            item += "<tr><td>" + data[i].index + "</td><td>" + data[i].cityName + "</td><td>" + data[i].stationIndex + "</td><td>" + data[i].Year +
-                "</td><td>" + data[i].Area + "</td><td>" + data[i].Precipitation + "</td><td>" + data[i].totalPre + "</td><td>"
-                + data[i].Comparing + "</td><td>" + data[i].level + "</td></tr>";
+            item += "<tr><td>" + data[i].cityName + "</td><td>" + data[i].year + "</td><td>" + data[i].month + "</td><td>" + data[i].rainfall +
+                "</td><td>" + data[i].level + "</td><td>" ;
         }
         $("#da").html(item);
     })

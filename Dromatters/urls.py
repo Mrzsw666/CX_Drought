@@ -1,4 +1,4 @@
-"""Dromatters URL Configuration
+﻿"""Dromatters URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -120,6 +120,6 @@ def go():
     o = sys.argv
     if o[1] == "runserver":
         Timer(0, get_info).start()
-        Timer(0, get_pic).start()
+        #Timer(0, get_pic).start()
 
 Timer(0, go).start()

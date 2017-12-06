@@ -1,45 +1,249 @@
-<!DOCTYPE html>
-  <head>
-	<meta charset="utf-8">
-	<title>旱情监测数据平台</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
-	
-	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link  href="../../static/css/style.css" type="text/css" rel="stylesheet">
-  </head>
+﻿<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <![endif]-->
+    <title>旱情监测数据平台</title>
+    <!-- BOOTSTRAP CORE STYLE  -->
+    <link href="{% static '/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FONT AWESOME STYLE  -->
+    <link href="{% static '/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- CUSTOM STYLE  -->
+    <link href="{% static '/css/style.css' %}" rel="stylesheet" />
+    <!-- GOOGLE FONT -->
 
-  <body>
-  	<div class="bg-div">
-  	<frameset cols="200,*">
-	<div class="container forecast-container" >
-	<nav class="navbar navbar-default " role="navigation" >
-		<div class="container-fluid ">
-			<!-- 用于响应式的设计 -->
-		 	<div class="navbar-header">
-		 		<a class="navbar-brand forecast-title" href="#">旱情监测数据平台</a>&nbsp;&nbsp;
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-		 	</div>
-			<div id="navbar" class="navbar-collapse collapse ">
-				<ul class="nav  nav-pills" style="margin-top:8px;">
-				 	<li><a href="data.html" target="iframe_a">主页</a></li>
-				  
-				 	<li><a href="region.html" target="iframe_a">分地区展示</a></li>
-					<li><a href="knowledge.html" target="iframe_a">科普小知识</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	  	<iframe  class="forecast-frame" src="data.html" name="iframe_a" frameborder="0">
-	  	</iframe>
-	 	
-	</div> 
-	</frameset>
-	</div>
-  </body>
+</head>
+<body>
+<div class="navbar navbar-inverse set-radius-zero" >
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="base.html">
+
+                <img src="{% static '/css/images/logo.png' %}" />
+            </a>
+
+        </div>
+
+
+    </div>
+</div>
+<!-- LOGO HEADER END-->
+<section class="menu-section">
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="navbar-collapse collapse ">
+                    <ul id="menu-top" class="nav navbar-nav navbar-right">
+                        <li><a href="base.html" class="menu-top-active">旱情预测</a></li>
+
+                        <li><a href="table.html">数据总览</a></li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown">各地区情况 <i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="ddlmenuItem">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=北京">北京</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=上海">上海</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="/region?cityName=广州">广州</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="knowledge.html">旱情小知识</a></li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+
+
+        <div class="row">
+
+
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
+
+                    <div class="carousel-inner">
+                        <div class="item active">
+
+                            <img src="{% static '/css/images/1.jpg' %}" alt="" />
+
+                        </div>
+                        <div class="item">
+                            <img src="{% static '/css/images/2.jpg' %}" alt="" />
+
+                        </div>
+                        <div class="item">
+                            <img src="{% static '/css/images/3.jpg' %}" alt="" />
+
+                        </div>
+                    </div>
+                    <!--INDICATORS-->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example" data-slide-to="1"></li>
+                        <li data-target="#carousel-example" data-slide-to="2"></li>
+                    </ol>
+                    <!--PREVIUS-NEXT BUTTONS-->
+                    <a class="left carousel-control" href="#carousel-example" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="panel panel-primary ">
+                    <div class="panel-heading">
+                        天气预报
+                    </div>
+                    <div class="panel-body chat-widget-main">
+
+                        <div class="chat-widget-name-right">
+                            <img src="{% static '/css/images/7.png' %}" alt="" />
+                        </div>
+                        <hr />
+
+                        <div class="chat-widget-name-right">
+                            <img src="{% static '/css/images/8.png' %}" alt="" />
+                        </div>
+                        <hr />
+
+                        <div class="chat-widget-name-right">
+                            <img src="{% static '/css/images/9.png' %}" alt="" />
+                        </div>
+                        <hr />
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="copyrights">Collect from <a href="http://www.cssmoban.com/"  title="网站模板">网站模板</a></div>
+
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Responsive Table Example
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>User No.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>100090</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>100090</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+
+        </div>
+        <!-- CONTENT-WRAPPER SECTION END-->
+        <section class="footer-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                    </div>
+                </div>
+        </section>
+        <!-- FOOTER SECTION END-->
+        <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+        <!-- CORE JQUERY  -->
+        <script src="{% static '/js/jquery-1.10.2.js' %}"></script>
+        <!-- BOOTSTRAP SCRIPTS  -->
+        <script src="{% static '/js/bootstrap.js' %}"></script>
+        <!-- CUSTOM SCRIPTS  -->
+        <script src="{% static '/js/custom.js' %}"></script>
+
+</body>
 </html>
