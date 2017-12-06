@@ -39,10 +39,11 @@ apipatterns = [
 ]
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url=r'data/')),
-    url(r'^data/$', TemplateView.as_view(template_name="data.html")),
+    url(r'^$', RedirectView.as_view(url=r'base/')),
+    url(r'^base/$', TemplateView.as_view(template_name="base.html")),
     url(r'^region/$', TemplateView.as_view(template_name="region.html")),
-    url(r'^show/$', TemplateView.as_view(template_name="show.html")),
+    url(r'^knowledge/$', TemplateView.as_view(template_name="knowledge.html")),
+    url(r'^table/$', TemplateView.as_view(template_name="table.html")),
     url(r'^admin/', admin.site.urls),
 ]
 
