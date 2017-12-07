@@ -54,8 +54,7 @@ CITYS_CNS = {u'北京': "bjave", u'上海': "shave", u'广州': "gzave"}
 
 
 def get_pic():
-    page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")
-    html = page.read()
+    page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")    html = page.read()
     encode_type = chardet.detect(html)
     html = html.decode(encode_type['encoding'])
     reg = r's1p/(.*?)\" />'
@@ -120,6 +119,6 @@ def go():
     o = sys.argv
     if o[1] == "runserver":
         Timer(0, get_info).start()
-        #Timer(0, get_pic).start()
+        Timer(0, get_pic).start()
 
 Timer(0, go).start()
