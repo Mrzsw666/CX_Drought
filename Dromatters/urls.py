@@ -58,17 +58,16 @@ def get_pic():
     html = page.read()
     encode_type = chardet.detect(html)
     html = html.decode(encode_type['encoding'])
-    print(html)
     reg = r's1p/(.*?)\" />'
     imgre = re.compile(reg)
-    imglist = re.findall(imgre, html)
+    imglist = re.findall(imgre,html)
     for link in imglist:
         html_url = 'http://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/' + str(link)
-        print(html_url)
-        curPath = os.getcwd()
-        fatherPath = os.path.dirname(curPath)
+        fatherPath = os.getcwd()
+        abspath = os.path.abspath(fatherPath)
         filename = os.path.basename(html_url)
-        urllib.request.urlretrieve(html_url, fatherPath + "/front_end/css/images/" + filename)
+        urllib.request.urlretrieve(html_url,abspath + "/static/css/images/cloudp.jpg")
+
 
 
 def get_info():
