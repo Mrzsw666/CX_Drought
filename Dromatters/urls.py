@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from drought.models import RF
+from drought.models import RF, Realtime
 from django.conf import settings
 from drought import views
 
@@ -33,9 +33,11 @@ from django.conf.urls.static import static
 from rest_framework.urlpatterns import format_suffix_patterns
 import xlrd, pymysql
 
+
 apipatterns = [
     url(r'^AllData/$', views.AllData.as_view()),
     url(r'^RegionData/$', views.RegionData.as_view()),
+    url(r'^TQ/$', views.TQ.as_view()),
 ]
 
 urlpatterns = [
@@ -54,7 +56,8 @@ CITYS_CNS = {u'北京': "bjave", u'上海': "shave", u'广州': "gzave"}
 
 
 def get_pic():
-    page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")    html = page.read()
+    page = urllib.request.urlopen("http://www.cwb.gov.tw/V7/observe/satellite/Sat_EA.htm#")
+    html = page.read()
     encode_type = chardet.detect(html)
     html = html.decode(encode_type['encoding'])
     reg = r's1p/(.*?)\" />'
@@ -66,7 +69,6 @@ def get_pic():
         abspath = os.path.abspath(fatherPath)
         filename = os.path.basename(html_url)
         urllib.request.urlretrieve(html_url,abspath + "/static/css/images/cloudp.jpg")
-
 
 
 def get_info():
@@ -115,10 +117,38 @@ def makelevel():
     print("finish!")
 
 
+he_key = "9dc4601daea4464d8ff6ab5d2868c81d"
+CITYS_ID = {u'Beijing': u'北京', u'Shanghai': u'上海', u'Guangzhou': u'广州'}
+
+
+def tq():
+    cnt = 0
+    he_str = "https://free-api.heweather.com/s6/weather/forecast"
+    for city_str in CITYS_ID:
+        payload = {'location': CITYS_ID[city_str], 'key': he_key}
+        r = requests.get(he_str, params=payload)
+        J = r.json()
+        J = J[u"HeWeather6"][0]
+        qset = Realtime.objects.filter(cityName=city_str)
+        if qset:
+            qset.delete()
+        now = Realtime(cityName=city_str)
+        Jnow = J[u"daily_forecast"][0]
+        now.tmp_max = int(Jnow[u"tmp_max"])
+        now.tmp_min = int(Jnow[u"tmp_min"])
+        now.cond_txt_d = Jnow[u"cond_txt_d"]
+        now.cond_txt_n = Jnow[u"cond_txt_n"]
+        now.save()
+        # print(cnt, flag)
+    Timer(1200, tq).start()
+
+
 def go():
     o = sys.argv
     if o[1] == "runserver":
         Timer(0, get_info).start()
         Timer(0, get_pic).start()
+        Timer(0, tq).start()
 
 Timer(0, go).start()
+
