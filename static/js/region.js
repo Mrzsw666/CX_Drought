@@ -1,4 +1,4 @@
-function getUrlParam(key) {
+﻿function getUrlParam(key) {
     // 获取参数
     var url = window.location.search;
     // 正则筛选地址栏
@@ -10,6 +10,11 @@ function getUrlParam(key) {
 }
 
 var city = getUrlParam("cityName");
+var year = getUrlParam("year");
+var a =  document.getElementById("cityName");
+a.value = city;
+var b =  document.getElementById("year");
+b.value = year;
 function ParametersFunc() {
     var item = "";
     $(function () {
@@ -17,7 +22,7 @@ function ParametersFunc() {
             type: "GET",
             url: "/RegionData.json",//利用ajax请求后台的并返回值
             dataType: "json",
-            data: {cityName: city},
+            data: {cityName: city,year: year},
             async: false
         });
         var data = [];
@@ -26,7 +31,8 @@ function ParametersFunc() {
             item += "<tr><td>" + data[i].cityName + "</td><td>" + data[i].year + "</td><td>" + data[i].month + "</td><td>" + data[i].rainfall +
                 "</td><td>" + data[i].level + "</td><td>" ;
         }
-        $("#da").html(item);
+        $("#tianqi").html(item);
+
     })
 }
 ParametersFunc();
