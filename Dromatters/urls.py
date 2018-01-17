@@ -75,9 +75,10 @@ def get_info():
     data = xlrd.open_workbook("./static/datasheet.xlsx")
     table = data.sheet_by_index(0)
     qset = RF.objects.all()
-    if qset:
-        print("finish!")
+    if qset.count() == 432:
+        print("finish")
         return
+    qset.delete()
     for i in range(0, 3):
         cn = table.cell_value(i, 0)
         for j in range(1, 13):
