@@ -1,0 +1,25 @@
+.year-select{
+    font-size: 17.5px ;
+    margin-right: 7px;
+    color: #555555;
+    padding-top: 20px;
+}
+.style-tit{
+    font-size: 20px;
+    color: rgb(145,112,228);
+    text-align: center;
+
+}
+.title-a:hover{
+    text-decoration: none;
+    font-weight: 550;
+    font-size: 23px;
+}
+
+.title-a:visited{
+    text-decoration: none;
+}
+
+.title-a:link{
+    text-decoration: none;
+}
