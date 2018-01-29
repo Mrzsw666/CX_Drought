@@ -130,10 +130,10 @@ def tq():
         r = requests.get(he_str, params=payload)
         J = r.json()
         J = J[u"HeWeather6"][0]
-        qset = Realtime.objects.filter(cityName=city_str)
+        qset = Realtime.objects.filter(cityName=CITYS_ID[city_str])
         if qset:
             qset.delete()
-        now = Realtime(cityName=city_str)
+        now = Realtime(cityName=CITYS_ID[city_str])
         Jnow = J[u"daily_forecast"][0]
         now.tmp_max = int(Jnow[u"tmp_max"])
         now.tmp_min = int(Jnow[u"tmp_min"])

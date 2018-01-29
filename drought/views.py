@@ -47,5 +47,5 @@ class TQ(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Realtime.objects.all()
-        return queryset.order_by('cityName')
+        return queryset
 
