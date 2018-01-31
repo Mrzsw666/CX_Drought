@@ -70,7 +70,6 @@
 <div class="content-wrapper">
     <div class="container">
         <div class="row">
-
             <div class="col-md-8 col-sm-8 col-xs-12">
                 <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
 
@@ -103,33 +102,29 @@
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </a>
                 </div>
-            </div>
+         </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="panel panel-primary ">
                     <div class="panel-heading">
                         天气预报
                     </div>
                     <div class="panel-body chat-widget-main">
-
-                        <div align="center">
                             <!-- 显示后台数据的表格 -->
-                            <table id="mainTable" class="display table table-hover">
+                            <table id="mainTable" class="display table table-hover" style="text-align:center">
                                 <thead>
-                                <tr >
-                                    <th width="400px">
+                                <tr>
+                                    <th style="text-align:center;width:1200px">
                                         城市名
                                     </th>
-                                    <th width="1200px">
-                                       最低温
+                                    <th style="text-align:center;width:1200px">
+                                       温度
                                     </th>
-                                    <th width="1200px">
-                                       最高温
-                                    </th>
-                                    <th width="1600px">
+
+                                    <th style="text-align:center;width:1600px">
                                         白天
                                     </th>
-                                    <th width="1200px">
-                                        晚间
+                                    <th style="text-align:center;width:1200px">
+                                        夜间
                                     </th>
                                 </tr>
                                 </thead>
@@ -138,21 +133,14 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
-            </div>
+                </div>
+
         </div>
     </div>
 
     <!-- CONTENT-WRAPPER SECTION END-->
-    <section class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
 
-                </div>
-            </div>
-    </section>
     <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/js/TQ.js' %}"></script>
     <!-- FOOTER SECTION END-->

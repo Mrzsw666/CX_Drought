@@ -10,7 +10,7 @@ function Parameters() {
         var data = [];
         data = test.responseJSON.results;
         for (var i = 0; i < data.length; i++) {
-            item += "<tr><td>" + data[i].cityName + "</td><td>" + data[i].tmp_min + "</td><td>" + data[i].tmp_max + "</td><td>" + data[i].cond_txt_d +
+            item += "<tr><td>" + data[i].cityName + "</td><td>" + data[i].tmp_min + "℃~" + data[i].tmp_max + "℃</td><td>" + data[i].cond_txt_d +
                 "</td><td>" + data[i].cond_txt_n + "</td><td>" ;
         }
         $("#tianqi").html(item);
