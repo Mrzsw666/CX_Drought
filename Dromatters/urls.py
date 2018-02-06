@@ -338,10 +338,10 @@ def ar_predict(csv_file_name, model_save_dir, training_steps=300, predicted_step
 
 
 # csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
-print(lstm_predict(csv_file_name='./data/dataset_1.csv', model_save_dir='model1/'))
-print(lstm_predict(csv_file_name='./data/dataset_2.csv', model_save_dir='model2/'))
-print(lstm_predict(csv_file_name='./data/dataset_3.csv', model_save_dir='model3/'))
+print(lstm_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model1/'))
+print(lstm_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model2/'))
+print(lstm_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model3/'))
 
-print(ar_predict(csv_file_name='./data/dataset_1.csv', model_save_dir='model4/'))
-print(ar_predict(csv_file_name='./data/dataset_2.csv', model_save_dir='model5/'))
-print(ar_predict(csv_file_name='./data/dataset_3.csv', model_save_dir='model6/'))
+print(ar_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model4/'))
+print(ar_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model5/'))
+print(ar_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model6/'))
