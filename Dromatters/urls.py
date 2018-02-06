@@ -13,11 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 from django.conf.urls import url
 from django.contrib import admin
 from drought.models import RF, Realtime
 from django.conf import settings
 from drought import views
+
+import tensorflow as tf
+import matplotlib.pyplot as plt
+from tensorflow.contrib.timeseries.python.timeseries import estimators as ts_estimators
+from tensorflow.contrib.timeseries.python.timeseries import model as ts_model
 
 import urllib
 import urllib.request
@@ -32,7 +41,6 @@ from django.views.generic import TemplateView, RedirectView
 from django.conf.urls.static import static
 from rest_framework.urlpatterns import format_suffix_patterns
 import xlrd, pymysql
-
 
 apipatterns = [
     url(r'^AllData/$', views.AllData.as_view()),
@@ -62,13 +70,13 @@ def get_pic():
     html = html.decode(encode_type['encoding'])
     reg = r's1p/(.*?)\" />'
     imgre = re.compile(reg)
-    imglist = re.findall(imgre,html)
+    imglist = re.findall(imgre, html)
     for link in imglist:
         html_url = 'http://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/' + str(link)
         fatherPath = os.getcwd()
         abspath = os.path.abspath(fatherPath)
         filename = os.path.basename(html_url)
-        urllib.request.urlretrieve(html_url,abspath + "/static/css/images/cloudp.jpg")
+        urllib.request.urlretrieve(html_url, abspath + "/static/css/images/cloudp.jpg")
 
 
 def get_info():
@@ -151,21 +159,9 @@ def go():
         Timer(0, get_pic).start()
         Timer(0, tq).start()
 
+
 Timer(0, go).start()
 
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-import tensorflow as tf
-
-from tensorflow.contrib.timeseries.python.timeseries import estimators as ts_estimators
-from tensorflow.contrib.timeseries.python.timeseries import model as ts_model
-
-import matplotlib
-
-matplotlib.use("agg")
-import matplotlib.pyplot as plt
 
 # 基于RNN的LSTM结构定义
 class _LSTMModel(ts_model.SequentialTimeSeriesModel):
@@ -181,7 +177,7 @@ class _LSTMModel(ts_model.SequentialTimeSeriesModel):
         self._lstm_cell_run = None
         self._predict_from_lstm_output = None
 
-    def initialize_graph(self, input_statistics):
+    def initialize_graph(self, input_statistics=None):
         super(_LSTMModel, self).initialize_graph(input_statistics=input_statistics)
         self._lstm_cell = tf.nn.rnn_cell.LSTMCell(num_units=self._num_units)
         self._lstm_cell_run = tf.make_template(
@@ -236,16 +232,17 @@ class _LSTMModel(ts_model.SequentialTimeSeriesModel):
             "Exogenous inputs are not implemented for this example.")
 
 
-def train_and_predict(csv_file_name, model_save_dir, training_steps, predicted_steps):
+# LSTM预测函数（神经网络模型预测）
+def lstm_predict(csv_file_name, model_save_dir, training_steps=300, predicted_steps=24, batch_size=1, window_size=132):
     # 显示训练信息
-    tf.logging.set_verbosity(tf.logging.INFO)
+    # tf.logging.set_verbosity(tf.logging.INFO)
 
     # 读取数据文件
     reader = tf.contrib.timeseries.CSVReader(csv_file_name)
 
     # 训练参数设置
     train_input_fn = tf.contrib.timeseries.RandomWindowInputFn(
-        reader, batch_size=4, window_size=200)
+        reader, batch_size=batch_size, window_size=window_size)
     estimator = ts_estimators.TimeSeriesRegressor(
         model=_LSTMModel(num_features=1, num_units=128),
         optimizer=tf.train.AdamOptimizer(0.001), model_dir=model_save_dir)
@@ -282,14 +279,69 @@ def train_and_predict(csv_file_name, model_save_dir, training_steps, predicted_s
     plt.legend(handles=[observed_lines[0], evaluated_lines[0], predicted_lines[0]],
                loc="upper left")
     plt.savefig(model_save_dir + 'predict_result.png')  # 图保存在对应模型目录下
+    # plt.show()
+
+    # 预测数据存储在predicted中，predicted_times代表时间点，predicted中包含时间点对应的预测数据
+    return predicted_times, predicted
+
+
+# AR预测函数（自回归模型预测）
+def ar_predict(csv_file_name, model_save_dir, training_steps=300, predicted_steps=24, batch_size=16, window_size=12):
+    # 显示训练信息
+    # tf.logging.set_verbosity(tf.logging.INFO)
+
+    # 读取数据
+    reader = tf.contrib.timeseries.CSVReader(csv_file_name)
+    train_input_fn = tf.contrib.timeseries.RandomWindowInputFn(reader, batch_size=batch_size, window_size=window_size)
+    with tf.Session() as sess:
+        data = reader.read_full()
+        coord = tf.train.Coordinator()
+        tf.train.start_queue_runners(sess=sess, coord=coord)
+        data = sess.run(data)
+        coord.request_stop()
+
+    # 参数设置
+    ar = tf.contrib.timeseries.ARRegressor(
+        periodicities=132, input_window_size=9, output_window_size=3,
+        num_features=1,
+        loss=tf.contrib.timeseries.ARModel.NORMAL_LIKELIHOOD_LOSS,
+        model_dir=model_save_dir)
+
+    # 训练
+    ar.train(input_fn=train_input_fn, steps=training_steps)
+
+    # 拟合
+    evaluation_input_fn = tf.contrib.timeseries.WholeDatasetInputFn(reader)
+    evaluation = ar.evaluate(input_fn=evaluation_input_fn, steps=1)
+
+    # 预测
+    (predictions,) = tuple(ar.predict(
+        input_fn=tf.contrib.timeseries.predict_continuation_input_fn(
+            evaluation, steps=predicted_steps)))
+
+    predicted_times = predictions['times'].reshape(-1)
+    predicted = predictions['mean'].reshape(-1)
+
+    # 画图显示
+    plt.figure(figsize=(15, 5))
+    plt.plot(data['times'].reshape(-1), data['values'].reshape(-1), label='origin')
+    plt.plot(evaluation['times'].reshape(-1), evaluation['mean'].reshape(-1), label='evaluation')
+    plt.plot(predictions['times'].reshape(-1), predictions['mean'].reshape(-1), label='prediction')
+    plt.xlabel('time_step')
+    plt.ylabel('values')
+    plt.legend(loc="upper left")
+    plt.savefig(model_save_dir + 'predict_result.png')  # 图保存在对应模型目录下
+    # plt.show()
 
     # 预测数据存储在predicted中，predicted_times代表时间点，predicted中包含时间点对应的预测数据
     return predicted_times, predicted
 
 
 # csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
-# training_steps是训练次数(训练数据量的2-4倍)，predicted_steps是向后预测的数据数目
-# 数据曲线图像将会保存在model_save_dir/predict_result.png
-# 运行后还会打印出预测的时间点和对应的值
-print(train_and_predict(csv_file_name='./data/dataset.csv', model_save_dir='model1/', training_steps=1000,
-                        predicted_steps=240))
+print(lstm_predict(csv_file_name='./data/dataset_1.csv', model_save_dir='model1/'))
+print(lstm_predict(csv_file_name='./data/dataset_2.csv', model_save_dir='model2/'))
+print(lstm_predict(csv_file_name='./data/dataset_3.csv', model_save_dir='model3/'))
+
+print(ar_predict(csv_file_name='./data/dataset_1.csv', model_save_dir='model4/'))
+print(ar_predict(csv_file_name='./data/dataset_2.csv', model_save_dir='model5/'))
+print(ar_predict(csv_file_name='./data/dataset_3.csv', model_save_dir='model6/'))
