@@ -213,7 +213,7 @@ class _LSTMModel(ts_model.SequentialTimeSeriesModel):
             predictions["loss"] = tf.reduce_mean(
                 (prediction - transformed_values) ** 2, axis=-1)
             new_state_tuple = (current_times, transformed_values, lstm_state)
-        return (new_state_tuple, predictions)
+        return new_state_tuple, predictions
 
     def _prediction_step(self, current_times, state):
         _, previous_observation_or_prediction, lstm_state = state
@@ -233,9 +233,10 @@ class _LSTMModel(ts_model.SequentialTimeSeriesModel):
 
 
 # LSTM预测函数（神经网络模型预测）
-def lstm_predict(csv_file_name, model_save_dir, training_steps=300, predicted_steps=24, batch_size=1, window_size=132):
+def lstm_predict(csv_file_name, model_save_dir, city_name, training_steps=300, predicted_steps=3, batch_size=1,
+                 window_size=132):
     # 显示训练信息
-    # tf.logging.set_verbosity(tf.logging.INFO)
+    tf.logging.set_verbosity(tf.logging.INFO)
 
     # 读取数据文件
     reader = tf.contrib.timeseries.CSVReader(csv_file_name)
@@ -282,13 +283,25 @@ def lstm_predict(csv_file_name, model_save_dir, training_steps=300, predicted_st
     # plt.show()
 
     # 预测数据存储在predicted中，predicted_times代表时间点，predicted中包含时间点对应的预测数据
-    return predicted_times, predicted
+    # return predicted_times, predicted
+
+    pre_data = predicted
+    i = 0
+    with open('Dromatters/pre_data.csv', 'a') as f:
+        f.write(city_name + '\n')
+    while i < 3:
+        if pre_data[i] < 0:
+            pre_data[i] += 30
+        with open('Dromatters/pre_data.csv', 'a') as f:
+            f.write(str(round(pre_data[i][0], 1)) + '\n')
+        i += 1
 
 
 # AR预测函数（自回归模型预测）
-def ar_predict(csv_file_name, model_save_dir, training_steps=300, predicted_steps=24, batch_size=16, window_size=12):
+def ar_predict(csv_file_name, model_save_dir, city_name, training_steps=300, predicted_steps=3, batch_size=16,
+               window_size=12):
     # 显示训练信息
-    # tf.logging.set_verbosity(tf.logging.INFO)
+    tf.logging.set_verbosity(tf.logging.INFO)
 
     # 读取数据
     reader = tf.contrib.timeseries.CSVReader(csv_file_name)
@@ -334,14 +347,25 @@ def ar_predict(csv_file_name, model_save_dir, training_steps=300, predicted_step
     # plt.show()
 
     # 预测数据存储在predicted中，predicted_times代表时间点，predicted中包含时间点对应的预测数据
-    return predicted_times, predicted
+    # return predicted_times, predicted
+
+    pre_data = predicted
+    i = 0
+    with open('Dromatters/pre_data.csv', 'a') as f:
+        f.write(city_name + '\n')
+    while i < 3:
+        if pre_data[i] < 0:
+            pre_data[i] += 30
+        with open('Dromatters/pre_data.csv', 'a') as f:
+            f.write(str(round(pre_data[i][0], 1)) + '\n')
+        i += 1
 
 
 # csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
-# print(lstm_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model1/'))
-# print(lstm_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model2/'))
-# print(lstm_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model3/'))
+# lstm_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model1/', city_name='Beijing')
+# lstm_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model2/', city_name='Shanghai')
+# lstm_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model3/', city_name='Guangzhou')
 
-# print(ar_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model4/'))
-# print(ar_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model5/'))
-# print(ar_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model6/'))
+# ar_predict(csv_file_name='Dromatters//data/dataset_1.csv', model_save_dir='Dromatters/model4/', city_name='Beijing')
+# ar_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model5/', city_name='Shanghai')
+# ar_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model6/', city_name='Guangzhou')
