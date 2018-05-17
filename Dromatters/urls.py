@@ -287,12 +287,11 @@ def lstm_predict(csv_file_name, model_save_dir, city_name, training_steps=300, p
 
     pre_data = predicted
     i = 0
-    with open('Dromatters/pre_data.csv', 'a') as f:
-        f.write(city_name + '\n')
+    pre_dir = 'Dromatters/pre_data/' + city_name + '.txt'
     while i < 3:
         if pre_data[i] < 0:
             pre_data[i] += 30
-        with open('Dromatters/pre_data.csv', 'a') as f:
+        with open(pre_dir, 'a') as f:
             f.write(str(round(pre_data[i][0], 1)) + '\n')
         i += 1
 
@@ -351,21 +350,20 @@ def ar_predict(csv_file_name, model_save_dir, city_name, training_steps=300, pre
 
     pre_data = predicted
     i = 0
-    with open('Dromatters/pre_data.csv', 'a') as f:
-        f.write(city_name + '\n')
+    pre_dir = 'Dromatters/pre_data/' + city_name + '.txt'
     while i < 3:
         if pre_data[i] < 0:
             pre_data[i] += 30
-        with open('Dromatters/pre_data.csv', 'a') as f:
+        with open(pre_dir, 'a') as f:
             f.write(str(round(pre_data[i][0], 1)) + '\n')
         i += 1
 
 
 # csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
-# lstm_predict(csv_file_name='Dromatters/data/dataset_1.csv', model_save_dir='Dromatters/model1/', city_name='Beijing')
-# lstm_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model2/', city_name='Shanghai')
-# lstm_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model3/', city_name='Guangzhou')
+# lstm_predict(csv_file_name='Dromatters/source_data/dataset_1.csv', model_save_dir='Dromatters/model1/', city_name='Beijing')
+# lstm_predict(csv_file_name='Dromatters/source_data/dataset_2.csv', model_save_dir='Dromatters/model2/', city_name='Shanghai')
+# lstm_predict(csv_file_name='Dromatters/source_data/dataset_3.csv', model_save_dir='Dromatters/model3/', city_name='Guangzhou')
 
-# ar_predict(csv_file_name='Dromatters//data/dataset_1.csv', model_save_dir='Dromatters/model4/', city_name='Beijing')
-# ar_predict(csv_file_name='Dromatters/data/dataset_2.csv', model_save_dir='Dromatters/model5/', city_name='Shanghai')
-# ar_predict(csv_file_name='Dromatters/data/dataset_3.csv', model_save_dir='Dromatters/model6/', city_name='Guangzhou')
+# ar_predict(csv_file_name='Dromatters//source_data/dataset_1.csv', model_save_dir='Dromatters/model4/', city_name='Beijing')
+# ar_predict(csv_file_name='Dromatters/source_data/dataset_2.csv', model_save_dir='Dromatters/model5/', city_name='Shanghai')
+# ar_predict(csv_file_name='Dromatters/source_data/dataset_3.csv', model_save_dir='Dromatters/model6/', city_name='Guangzhou')
