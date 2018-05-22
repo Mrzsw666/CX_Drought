@@ -4,6 +4,8 @@ from drought.models import RF, Realtime
 import tensorflow
 from rest_framework import generics, permissions
 from drought.serializers import RFSerializers, TQSerializers
+from django.http import HttpResponse
+import json
 
 # CITYS_CN = {'北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '江苏', '安徽', '山东', '河南', '陕西', '甘肃', '青海', '宁夏', '新疆'}
 
@@ -49,3 +51,16 @@ class TQ(generics.ListAPIView):
         queryset = Realtime.objects.all()
         return queryset
 
+
+class GetForcast(generics.ListAPIView):
+    serializer_class = TQSerializers
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        queryset = Realtime.objects.all()
+        city = self.request.query_params.get('cityName', None)
+        year = self.request.query_params.get('year', None)
+        month = self.request.query_params.get('month', None)
+        if city is not None:
+            queryset = queryset.filter(cityName=city, year=year, month=month)
+        return queryset

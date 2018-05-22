@@ -40,12 +40,13 @@ from threading import Timer
 from django.views.generic import TemplateView, RedirectView
 from django.conf.urls.static import static
 from rest_framework.urlpatterns import format_suffix_patterns
-import xlrd, pymysql
+import xlrd
 
 apipatterns = [
     url(r'^AllData/$', views.AllData.as_view()),
     url(r'^RegionData/$', views.RegionData.as_view()),
     url(r'^TQ/$', views.TQ.as_view()),
+    url(r'^GetForcast/$', views.GetForcast.as_view()),
 ]
 
 urlpatterns = [
@@ -79,11 +80,17 @@ def get_pic():
         urllib.request.urlretrieve(html_url, abspath + "/static/css/images/cloudp.jpg")
 
 
+pre_data = {'Beijing', 'Guangzhou', 'Shanghai'}
+CITY_CN = {u'Beijing': "北京", u'Guangzhou': "广州", u'Shanghai': "上海"}
+
+
 def get_info():
     data = xlrd.open_workbook("./static/datasheet.xlsx")
     table = data.sheet_by_index(0)
     qset = RF.objects.all()
-    if qset.count() == 432:
+    max_year = 0
+    max_month = 0
+    if qset.count() == 441:
         print("finish")
         return
     qset.delete()
@@ -96,10 +103,25 @@ def get_info():
     for i in range(3, table.nrows):
         cityname = table.cell_value(i, 0)
         year = int(table.cell_value(i, 1))
+        max_year = max(max_year, year)
         month = int(table.cell_value(i, 2))
+        max_month = max(max_month, month)
         rainfall = float(table.cell_value(i, 3))
         obj = RF.objects.create(cityName=cityname, year=year, month=month, rainfall=rainfall)
         obj.save()
+    for ci in pre_data:
+        loc = 'Dromatters/pre_data/' + ci + '.txt'
+        f = open(loc)
+        i = 1
+        while i <= 3:
+            d = f.readline()
+            cityname = CITY_CN[ci]
+            year = max_year + (max_month + i) / 13
+            month = (max_month - 1 + i) % 12 + 1
+            rainfall = float(d)
+            obj = RF.objects.create(cityName=cityname, year=year, month=month, rainfall=rainfall)
+            obj.save()
+            i += 1
     makelevel()
 
 
@@ -152,20 +174,8 @@ def tq():
     Timer(1200, tq).start()
 
 
-def go():
-    o = sys.argv
-    if o[1] == "runserver":
-        Timer(0, get_info).start()
-        Timer(0, get_pic).start()
-        Timer(0, tq).start()
-
-
-Timer(0, go).start()
-
-
 # 基于RNN的LSTM结构定义
 class _LSTMModel(ts_model.SequentialTimeSeriesModel):
-
     def __init__(self, num_units, num_features, dtype=tf.float32):
         super(_LSTMModel, self).__init__(
             train_output_names=["mean"],
@@ -359,7 +369,21 @@ def ar_predict(csv_file_name, model_save_dir, city_name, training_steps=300, pre
         i += 1
 
 
-# csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
-# lstm_predict(csv_file_name='Dromatters/source_data/dataset_1.csv', model_save_dir='Dromatters/model1/', city_name='Beijing')
-# lstm_predict(csv_file_name='Dromatters/source_data/dataset_2.csv', model_save_dir='Dromatters/model2/', city_name='Shanghai')
-# lstm_predict(csv_file_name='Dromatters/source_data/dataset_3.csv', model_save_dir='Dromatters/model3/', city_name='Guangzhou')
+def train_and_pre():
+    # csv_file_name是数据文件名，model_save_sir是训练模型保存的暂时目录
+    lstm_predict(csv_file_name='Dromatters/source_data/dataset_1.csv', model_save_dir='Dromatters/model1/',
+                 city_name='Beijing')
+    lstm_predict(csv_file_name='Dromatters/source_data/dataset_2.csv', model_save_dir='Dromatters/model2/',
+                 city_name='Shanghai')
+    lstm_predict(csv_file_name='Dromatters/source_data/dataset_3.csv', model_save_dir='Dromatters/model3/',
+                 city_name='Guangzhou')
+
+
+def go():
+    o = sys.argv
+    if o[1] == "runserver":
+        Timer(0, get_info).start()
+        Timer(0, get_pic).start()
+        Timer(0, tq).start()
+
+Timer(0, go).start()
