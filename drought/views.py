@@ -57,7 +57,7 @@ class GetForcast(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
-        queryset = Realtime.objects.all()
+        queryset = RF.objects.all()
         city = self.request.query_params.get('cityName', None)
         year = self.request.query_params.get('year', None)
         month = self.request.query_params.get('month', None)
