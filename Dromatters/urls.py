@@ -90,9 +90,9 @@ def get_info():
     qset = RF.objects.all()
     max_year = 0
     max_month = 0
-    if qset.count() == 441:
-        print("finish")
-        return
+    #if qset.count() == 441:
+        #print("finish")
+        #return
     qset.delete()
     for i in range(0, 3):
         cn = table.cell_value(i, 0)
@@ -116,8 +116,8 @@ def get_info():
         while i <= 3:
             d = f.readline()
             cityname = CITY_CN[ci]
-            year = max_year + (max_month + i) / 13
-            month = (max_month - 1 + i) % 12 + 1
+            year = 2018
+            month = 5 + i
             rainfall = float(d)
             obj = RF.objects.create(cityName=cityname, year=year, month=month, rainfall=rainfall)
             obj.save()

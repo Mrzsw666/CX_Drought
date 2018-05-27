@@ -53,14 +53,12 @@ class TQ(generics.ListAPIView):
 
 
 class GetForcast(generics.ListAPIView):
-    serializer_class = TQSerializers
+    serializer_class = RFSerializers
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         queryset = RF.objects.all()
         city = self.request.query_params.get('cityName', None)
-        year = self.request.query_params.get('year', None)
-        month = self.request.query_params.get('month', None)
         if city is not None:
-            queryset = queryset.filter(cityName=city, year=year, month=month)
-        return queryset
+            queryset = queryset.filter(cityName=city, year=2018)
+        return queryset.order_by('month')
